@@ -8,28 +8,19 @@ public class Slapjack {
         deck = new ArrayList<>();
         p1Hand = new ArrayList<>();
         p2Hand = new ArrayList<>();
-        String suit= "";
-        for(int i= 0; i<4; i++){
+        String name= "";
+        for(int i= 0; i<3; i++){
             switch (i){
-                case 0 -> suit="spade";
-                case 1 -> suit="heart";
-                case 2 -> suit="club";
-                case 3 -> suit="diamond";
+                case 0 -> name="Q";
+                case 1 -> name="K";
+                case 2 -> name="A";
             }
-            deck.add(new Card("A", 11, suit));
-            deck.add(new Card("2", 2, suit));
-            deck.add(new Card("3", 3, suit));
-            deck.add(new Card("4", 4, suit));
-            deck.add(new Card("5", 5, suit));
-            deck.add(new Card("6", 6, suit));
-            deck.add(new Card("7", 7, suit));
-            deck.add(new Card("8", 8, suit));
-            deck.add(new Card("9", 9, suit));
-            deck.add(new Card("10", 10, suit));
-            deck.add(new Card("J", 10, suit));
-            deck.add(new Card("Q", 10, suit));
-            deck.add(new Card("K", 10, suit));
+            for(int j = 0; i<6; j++){
+                deck.add(new Card(name));
+            }
         }
+        //deck.add(new Card("J"));
+        //deck.add(new Card("J"));
         
     }
     public void drawGame(Graphics g){

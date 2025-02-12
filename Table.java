@@ -2,10 +2,12 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-public class Table extends JPanel implements ActionListener{
+public class Table extends JPanel implements ActionListener, MouseListener{
 	
 	private JButton deal;
 	private Slapjack sjack;
@@ -39,9 +41,18 @@ public class Table extends JPanel implements ActionListener{
         if(e.getSource()==deal){
             deal.setVisible(false);
             sjack.dealPlayers();
-			sjack.print();
         }
 	}
+	public void mousePressed(MouseEvent e) {
+        //Print location of x and y
+        //System.out.println("X: " + e.getX() + ", Y: " + e.getY());
+        
+        repaint();
+    }
+    public void mouseReleased(MouseEvent e) {}
+    public void mouseEntered(MouseEvent e) {}
+    public void mouseExited(MouseEvent e) {}
+    public void mouseClicked(MouseEvent e) {}
 
 	
 }
