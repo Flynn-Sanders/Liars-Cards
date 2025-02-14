@@ -10,10 +10,10 @@ import javax.swing.JPanel;
 public class Table extends JPanel implements ActionListener, MouseListener{
 	
 	private JButton deal;
-	private Slapjack sjack;
+	private CardGame cgame;
 
 	public Table() {
-		sjack = new Slapjack();
+		cgame = new CardGame();
 
 		//setup buttons
 		setLayout(null);
@@ -40,7 +40,7 @@ public class Table extends JPanel implements ActionListener, MouseListener{
 	public void actionPerformed(ActionEvent e) {
         if(e.getSource()==deal){
             deal.setVisible(false);
-            sjack.dealPlayers();
+            cgame.dealPlayers();
         }
 	}
 	public void mousePressed(MouseEvent e) {

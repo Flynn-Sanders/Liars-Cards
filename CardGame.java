@@ -1,10 +1,10 @@
 import java.awt.*;
 import java.util.ArrayList;
-public class Slapjack {
+public class CardGame {
    
     private ArrayList<Card> deck,p1Hand,p2Hand;
 
-    public Slapjack(){
+    public CardGame(){
         deck = new ArrayList<>();
         p1Hand = new ArrayList<>();
         p2Hand = new ArrayList<>();
@@ -14,8 +14,9 @@ public class Slapjack {
                 case 0 -> name="Q";
                 case 1 -> name="K";
                 case 2 -> name="A";
+                default -> name="";
             }
-            for(int j = 0; i<6; j++){
+            for(int j = 0; j<6; j++){
                 deck.add(new Card(name));
             }
         }
@@ -24,10 +25,20 @@ public class Slapjack {
         
     }
     public void drawGame(Graphics g){
-        
+        /* 
 		g.setColor(Color.green);
 		g.fillRect(0,0,800,600);
-		
+        int x = 100; int y = 350;
+        for(Card c : p1Hand){
+            c.drawMe(g, x, y);
+            x+=110;
+        }
+        x=100;
+        for(Card c : p2Hand){
+            c.drawMe(g, x, y);
+            x+=110;
+        }
+		*/
 		
 	}
 
@@ -41,7 +52,7 @@ public class Slapjack {
     }
     public void dealPlayers(){
         shuffle();
-        for(int i = 0; i<deck.size();i++){
+        for(int i = 0; i<10;i++){
             if(i%2==0){
                 p1Hand.add(deck.get(i));
             }
@@ -51,10 +62,7 @@ public class Slapjack {
         }
     }
     public void print(){
-        for(Card c : deck){
-            System.out.print(c+", ");
-        }
-        System.out.println();
+        
         for(Card c : p1Hand){
             System.out.print(c+", ");
         }
