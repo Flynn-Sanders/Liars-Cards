@@ -11,8 +11,7 @@ import javax.swing.JPanel;
 
 public class Table extends JPanel implements ActionListener, MouseListener {
 
-	private JButton switchPlayerButton;
-    private JButton continueButton;
+	private JButton switchPlayer, confirmSwitch, deal;
 
 	private CardGame cardGame;
 
@@ -24,16 +23,23 @@ public class Table extends JPanel implements ActionListener, MouseListener {
 			setLayout(null);
 
 
-			switchPlayerButton = new JButton("Switch Player");
-			switchPlayerButton .setBounds(400,350,200,30); //x,y,width,height
-			switchPlayerButton .addActionListener(this);
-			add(switchPlayerButton);
+			switchPlayer = new JButton("Switch Player");
+			switchPlayer .setBounds(400,350,200,30); //x,y,width,height
+			switchPlayer .addActionListener(this);
+			add(switchPlayer);
+			switchPlayer.setVisible(false);
 
-            continueButton = new JButton("Continue");
-			continueButton .setBounds(200,350,200,30); //x,y,width,height
-			continueButton .addActionListener(this);
-			add(continueButton);
-            continueButton.setVisible(false);
+            confirmSwitch = new JButton("Confirm");
+			confirmSwitch .setBounds(200,350,200,30); //x,y,width,height
+			confirmSwitch .addActionListener(this);
+			add(confirmSwitch);
+            confirmSwitch.setVisible(false);
+
+			deal = new JButton("Deal");
+			deal.setBounds(200,350,200,30); //x,y,width,height
+			deal.addActionListener(this);
+			add(deal);
+            
 
 
 			
@@ -60,7 +66,8 @@ public class Table extends JPanel implements ActionListener, MouseListener {
 
 
 	public void actionPerformed(ActionEvent e) {
-        
+        if(e.getSource()==deal)
+		
 		repaint();
 	}
 

@@ -28,8 +28,9 @@ public class CardGame {
                 case 1 -> name="K";
                 case 2 -> name="A";
             }
-            for(int j = 0; i<6; j++){
+            for(int j = 0; j<6; j++){
                 deck.add(new Card(name));
+                
             }
         }
 

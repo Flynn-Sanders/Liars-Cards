@@ -9,8 +9,8 @@ public class Card {
 
     
     public Card(String nm){
-            name=nm;
-        }
+        name=nm;
+    }
     
 
     public void drawMe(Graphics g, int x, int y){
