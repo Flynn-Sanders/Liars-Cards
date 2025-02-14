@@ -1,8 +1,5 @@
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
-
-
 
 public class Card {
     private String name;
@@ -23,6 +20,7 @@ public class Card {
         g.drawRect(x, y, 100, 140);
         g.setFont(cardFont);
         g.drawString(name, x+35, y+90);
+        System.out.println("Drawing card at" +x+","+y);
     }
 
     public String getName(){
