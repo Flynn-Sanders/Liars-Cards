@@ -24,19 +24,20 @@ public class Table extends JPanel implements ActionListener, MouseListener {
 
 
 			switchPlayer = new JButton("Switch Player");
-			switchPlayer .setBounds(400,350,200,30); //x,y,width,height
+			switchPlayer .setBounds(640,285,150,30); //x,y,width,height
 			switchPlayer .addActionListener(this);
 			add(switchPlayer);
-			switchPlayer.setVisible(false);
+			switchPlayer.setVisible(true);
 
-            confirmSwitch = new JButton("Confirm");
-			confirmSwitch .setBounds(200,350,200,30); //x,y,width,height
+            confirmSwitch = new JButton("Confirm Switch");
+			confirmSwitch .setBounds(640,285,150,30); //x,y,width,height
 			confirmSwitch .addActionListener(this);
 			add(confirmSwitch);
             confirmSwitch.setVisible(false);
 
+
 			deal = new JButton("Deal");
-			deal.setBounds(200,350,200,30); //x,y,width,height
+			deal.setBounds(200,275,200,50); //x,y,width,height
 			deal.addActionListener(this);
 			add(deal);
             
@@ -66,12 +67,30 @@ public class Table extends JPanel implements ActionListener, MouseListener {
 
 
 	public void actionPerformed(ActionEvent e) {
-        if(e.getSource()==deal)
-		
+        if(e.getSource()==deal){
+			deal.setVisible(false);
+			cardGame.start();
+		}
+		if(e.getSource() == switchPlayer){
+            //display a blank screen
+            cardGame.setBlankScreen(true);
+            cardGame.switchPlayer();
+            confirmSwitch.setVisible(true);
+            switchPlayer.setVisible(false);
+        }
+
+        if(e.getSource() == confirmSwitch){
+            //display a blank screen
+            cardGame.setBlankScreen(false);
+            confirmSwitch.setVisible(false);
+            switchPlayer.setVisible(true);
+        }
+
 		repaint();
 	}
 
 	public void mousePressed(MouseEvent e) {
+        cardGame.selectCard(e.getX(), e.getY());
         repaint();
     }
 
