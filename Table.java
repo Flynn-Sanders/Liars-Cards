@@ -11,23 +11,26 @@ import javax.swing.JPanel;
 
 public class Table extends JPanel implements ActionListener, MouseListener {
 
-	private JButton switchPlayer, confirmSwitch, deal;
+	private JButton playCards, confirmSwitch, deal, call;
 
 	private CardGame cardGame;
 
+	
+
 	public Table() {
 
-			cardGame = new CardGame();	
+			cardGame = new CardGame();
+				
 
 			//setup buttons
 			setLayout(null);
 
 
-			switchPlayer = new JButton("Switch Player");
-			switchPlayer .setBounds(640,285,150,30); //x,y,width,height
-			switchPlayer .addActionListener(this);
-			add(switchPlayer);
-			switchPlayer.setVisible(true);
+			playCards = new JButton("Play Selected Cards");
+			playCards .setBounds(640,285,150,30); //x,y,width,height
+			playCards .addActionListener(this);
+			add(playCards);
+			playCards.setVisible(false);
 
             confirmSwitch = new JButton("Confirm Switch");
 			confirmSwitch .setBounds(640,285,150,30); //x,y,width,height
@@ -40,6 +43,12 @@ public class Table extends JPanel implements ActionListener, MouseListener {
 			deal.setBounds(200,275,200,50); //x,y,width,height
 			deal.addActionListener(this);
 			add(deal);
+
+			call = new JButton("Call Liar");
+			call .setBounds(10,285,150,30); //x,y,width,height
+			call .addActionListener(this);
+			add(call);
+			call.setVisible(false);
             
 
 
@@ -70,20 +79,29 @@ public class Table extends JPanel implements ActionListener, MouseListener {
         if(e.getSource()==deal){
 			deal.setVisible(false);
 			cardGame.start();
+			call.setVisible(true);
+			playCards.setVisible(true);
 		}
-		if(e.getSource() == switchPlayer){
+		else if(e.getSource() == playCards){
             //display a blank screen
-            cardGame.setBlankScreen(true);
-            cardGame.switchPlayer();
-            confirmSwitch.setVisible(true);
-            switchPlayer.setVisible(false);
+            if(cardGame.switchPlayer()){
+				cardGame.setBlankScreen(true);
+				confirmSwitch.setVisible(true);
+				playCards.setVisible(false);
+				call.setVisible(false);
+			}
+            
         }
 
-        if(e.getSource() == confirmSwitch){
+        else if(e.getSource() == confirmSwitch){
             //display a blank screen
             cardGame.setBlankScreen(false);
             confirmSwitch.setVisible(false);
-            switchPlayer.setVisible(true);
+            playCards.setVisible(true);
+			call.setVisible(true);
+        }
+		else if(e.getSource() == call){
+            System.out.println("Player "+cardGame.callBluff()+" wins!");
         }
 
 		repaint();

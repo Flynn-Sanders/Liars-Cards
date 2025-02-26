@@ -13,6 +13,7 @@ public class CardGame {
     private BufferedImage cardback;
     private boolean blankScreen = false;
     private int turn = 1;
+    private String table;
 
 
     public CardGame(){
@@ -38,25 +39,70 @@ public class CardGame {
         reset();
         shuffle();
         deal();
+        int tableInt = (int)(Math.random()*3);
+			switch(tableInt){
+				case 0->table="Q";
+				case 1->table="K";
+				case 2->table="A";
+				default -> table="x";
+			}
+        System.out.println("Table of "+table);
     }
 
     public void setBlankScreen(boolean b){
         blankScreen = b;
     }
 
-    public void switchPlayer(){
-        playerCards.clear();
-        if(turn == 1){
-            turn = 2;
-            for(Card c : p2Cards){
-                playerCards.add(c);
+    public boolean switchPlayer(){
+        if(selectedCards.size()>=1 && selectedCards.size()<=3){
+            for(Card c : selectedCards){
+                for(int i = 0 ; i<playerCards.size();i++){
+                    if(playerCards.get(i)==c){
+                        playerCards.remove(c);
+                        break;
+                    }
+                    
+                }
             }
-        } else if (turn == 2){
-            turn = 1;
-            for(Card c : p1Cards){
-                playerCards.add(c);
+            
+            
+
+            if(turn == 1){
+                p1Cards = new ArrayList<>(playerCards); 
+                playerCards.clear();
+                turn = 2;
+                for(Card c : p2Cards){
+                    playerCards.add(c);
+                }
+            } else if (turn == 2){
+                p2Cards = new ArrayList<>(playerCards); 
+                playerCards.clear();
+                turn = 1;
+                for(Card c : p1Cards){
+                    playerCards.add(c);
+                }
+            }
+            return true;
+        }
+        else{
+            System.out.println("Can only play 1-3 cards.");
+            for(Card c : playerCards){
+                System.out.println(c.getName());
+            }
+            return false;
+        }
+    }
+
+    public int callBluff(){
+        for(Card c : selectedCards){
+            if(!c.getName().equals(table)){
+                return turn;
             }
         }
+        if(turn==1){
+            return 2;
+        }
+        return 1;
     }
 
 
@@ -77,12 +123,12 @@ public class CardGame {
                 font = new Font("Arial", Font.PLAIN, 30);
                 g.setFont(font);
                 g.setColor(Color.black);
-                g.drawString("Player 2: "+p2Cards.size()+" cards", 20, 40);
+                g.drawString("Player 2: "+p2Cards.size()+" cards", 20, 390);
                 
 
 
                 x = 20;
-                y = 50;
+                y = 400;
 
 
                 for(int i=0; i<p2Cards.size(); i++){
@@ -90,7 +136,7 @@ public class CardGame {
                     x += 130;
                 }
                 x=20;
-                y=400;
+                y=50;
                 for(int i=0; i<p1Cards.size(); i++){
                     g.drawImage(cardback, x, y, 100,140,null);
                     x += 130;
@@ -124,9 +170,6 @@ public class CardGame {
     public void selectCard(int xInput, int yInput){
         int x = 20;
         int y=400;
-        if(turn==2){
-            y=50;
-        }
         
         for(int i=0; i<playerCards.size(); i++){
             if(xInput >= x && xInput <= x+100 && yInput <= y+140 && yInput >= y){

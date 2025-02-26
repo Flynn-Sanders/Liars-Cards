@@ -5,7 +5,7 @@ public class Card {
     private String name;
     private BufferedImage cardImage;
     private Font cardFont = new Font("Arial", Font.BOLD, 50);
-    private boolean selected = false;
+    private boolean selected = false, isCorrect = false, isIncorrect = false;
 
 
     
@@ -18,6 +18,12 @@ public class Card {
         g.setColor(Color.WHITE);
         if(selected){
             g.setColor(Color.YELLOW);
+        }
+        if(isCorrect){
+            g.setColor(Color.green);
+        }
+        if(isIncorrect){
+            g.setColor(Color.red);
         }
         g.fillRect(x, y, 100, 140);
         g.setColor(Color.BLACK);
@@ -35,5 +41,9 @@ public class Card {
     }
     public boolean getSelected(){
         return selected;
+    }
+    public void setChecker(boolean isGreen, boolean isRed){
+        isCorrect=isGreen;
+        isIncorrect=isRed;
     }
 }
