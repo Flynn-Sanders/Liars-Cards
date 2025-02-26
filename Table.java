@@ -13,6 +13,8 @@ public class Table extends JPanel implements ActionListener, MouseListener {
 
 	private JButton playCards, confirmSwitch, deal, call;
 
+	private boolean hasDealed;
+
 	private CardGame cardGame;
 
 	
@@ -20,6 +22,7 @@ public class Table extends JPanel implements ActionListener, MouseListener {
 	public Table() {
 
 			cardGame = new CardGame();
+			hasDealed=false;
 				
 
 			//setup buttons
@@ -40,7 +43,7 @@ public class Table extends JPanel implements ActionListener, MouseListener {
 
 
 			deal = new JButton("Deal");
-			deal.setBounds(200,275,200,50); //x,y,width,height
+			deal.setBounds(300,275,200,50); //x,y,width,height
 			deal.addActionListener(this);
 			add(deal);
 
@@ -70,6 +73,10 @@ public class Table extends JPanel implements ActionListener, MouseListener {
 		cardGame.drawGame(g);
 		
 	}
+
+	public boolean getDealed(){
+		return hasDealed;
+	}
 	
 
 
@@ -77,6 +84,8 @@ public class Table extends JPanel implements ActionListener, MouseListener {
 
 	public void actionPerformed(ActionEvent e) {
         if(e.getSource()==deal){
+			hasDealed=true;
+			cardGame.setBlankScreen(false);
 			deal.setVisible(false);
 			cardGame.start();
 			call.setVisible(true);
@@ -102,6 +111,11 @@ public class Table extends JPanel implements ActionListener, MouseListener {
         }
 		else if(e.getSource() == call){
             System.out.println("Player "+cardGame.callBluff()+" wins!");
+			cardGame.setBlankScreen(true);
+			deal.setVisible(true);
+			playCards.setVisible(false);
+			call.setVisible(false);
+			hasDealed=false;
         }
 
 		repaint();

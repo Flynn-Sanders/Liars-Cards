@@ -9,19 +9,24 @@ import javax.imageio.ImageIO;
 
 
 public class CardGame {
-    private ArrayList<Card> deck, p1Cards, p2Cards, selectedCards, playerCards;
-    private BufferedImage cardback;
-    private boolean blankScreen = false;
-    private int turn = 1;
-    private String table;
 
+    private ArrayList<Card> deck, p1Cards, p2Cards, selectedCards, playerCards,betCards;
+    private BufferedImage cardback;
+
+    private boolean blankScreen = true;
+    private int turn = 1;
+
+    private String table, tableText;
+
+    private int currentBet;
 
     public CardGame(){
         deck = new ArrayList<Card>();
         p1Cards = new ArrayList<Card>();
 		p2Cards = new ArrayList<Card>();
-        selectedCards = new ArrayList<>();
-        playerCards = new ArrayList<>();
+        selectedCards = new ArrayList<Card>();
+        playerCards = new ArrayList<Card>();
+        betCards = new ArrayList<Card>();
         
 
         
@@ -39,14 +44,16 @@ public class CardGame {
         reset();
         shuffle();
         deal();
+        playerCards=new ArrayList<>(p1Cards);
+
         int tableInt = (int)(Math.random()*3);
 			switch(tableInt){
-				case 0->table="Q";
-				case 1->table="K";
-				case 2->table="A";
-				default -> table="x";
+				case 0: table="Q"; tableText="Queen"; break;
+				case 1: table="K"; tableText="King"; break;
+				case 2: table="A"; tableText="Ace"; break;
+				default: table="x"; tableText="x"; break;
 			}
-        System.out.println("Table of "+table);
+        System.out.println(tableText+"'s Table");
     }
 
     public void setBlankScreen(boolean b){
@@ -55,6 +62,8 @@ public class CardGame {
 
     public boolean switchPlayer(){
         if(selectedCards.size()>=1 && selectedCards.size()<=3){
+            currentBet=selectedCards.size();
+            betCards = new ArrayList<Card>(selectedCards);
             for(Card c : selectedCards){
                 for(int i = 0 ; i<playerCards.size();i++){
                     if(playerCards.get(i)==c){
@@ -64,6 +73,7 @@ public class CardGame {
                     
                 }
             }
+            selectedCards.clear();
             
             
 
@@ -74,12 +84,18 @@ public class CardGame {
                 for(Card c : p2Cards){
                     playerCards.add(c);
                 }
+                if(p1Cards.isEmpty()){
+                    System.out.println("Player "+callBluff()+" wins, automatic call bluff due to last card played.");
+                }
             } else if (turn == 2){
                 p2Cards = new ArrayList<>(playerCards); 
                 playerCards.clear();
                 turn = 1;
                 for(Card c : p1Cards){
                     playerCards.add(c);
+                }
+                if(p2Cards.isEmpty()){
+                    System.out.println("Player "+callBluff()+" wins, automatic call bluff due to last card played.");
                 }
             }
             return true;
@@ -94,15 +110,21 @@ public class CardGame {
     }
 
     public int callBluff(){
-        for(Card c : selectedCards){
-            if(!c.getName().equals(table)){
+        for (Card c : betCards) {
+            if (!c.getName().equals(table)) {
+                System.out.println("WIN BY CORRECTLY ACCUSING");
                 return turn;
             }
         }
+        System.out.println("WIN BY FALSELY ACCUSING");
         if(turn==1){
             return 2;
         }
-        return 1;
+        else if(turn==2){
+            return 1;
+        }
+        return 0;
+        
     }
 
 
@@ -124,6 +146,7 @@ public class CardGame {
                 g.setFont(font);
                 g.setColor(Color.black);
                 g.drawString("Player 2: "+p2Cards.size()+" cards", 20, 390);
+                g.drawString("Player 1: "+p1Cards.size()+" cards", 20, 30);
                 
 
 
@@ -150,6 +173,7 @@ public class CardGame {
                 g.setFont(font);
                 g.setColor(Color.black);
                 g.drawString("Player 1: "+p1Cards.size()+" cards", 20, 390);
+                g.drawString("Player 2: "+p2Cards.size()+" cards", 20, 30);
     
     
                 x = 20;
@@ -165,6 +189,15 @@ public class CardGame {
                     x += 130;
                 }
             }   
+            font = new Font("Arial", Font.BOLD, 30);
+            g.setFont(font);
+            if(currentBet>1){
+                g.drawString("Current Bet: "+currentBet+" "+tableText+"s", 250, 310);
+            }
+            else{
+                g.drawString("Current Bet: "+currentBet+" "+tableText, 250, 310);
+            }
+            
         }
 	}
     public void selectCard(int xInput, int yInput){
@@ -211,6 +244,11 @@ public class CardGame {
         deck.clear();
         p1Cards.clear();
         p2Cards.clear();
+        selectedCards.clear();
+        playerCards.clear();
+        currentBet=0;
+        turn=1;
+
         String name = "";
 
         for(int i= 0; i<3; i++){
