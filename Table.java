@@ -1,6 +1,5 @@
 
-import java.awt.Dimension;
-import java.awt.Graphics;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -43,7 +42,7 @@ public class Table extends JPanel implements ActionListener, MouseListener {
 
 
 			deal = new JButton("Deal");
-			deal.setBounds(300,275,200,50); //x,y,width,height
+			deal.setBounds(300,400,200,50); //x,y,width,height
 			deal.addActionListener(this);
 			add(deal);
 
@@ -70,7 +69,30 @@ public class Table extends JPanel implements ActionListener, MouseListener {
 
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
+		Font titleFont = new Font("Verdana", Font.BOLD, 46);
+		
 		cardGame.drawGame(g);
+		if(!hasDealed){
+			g.setFont(titleFont);
+			g.setColor(Color.BLACK);
+			g.drawString("LIAR'S DECK", 236, 150);
+			Font descFont = new Font("Verdana", Font.PLAIN, 24);
+			g.setFont(descFont);
+			FontMetrics metrics = g.getFontMetrics(descFont);
+			int descWidth = metrics.stringWidth("A game of deception and strategy.");
+			int x = (800 - descWidth) / 2;
+			g.drawString("A game of deception and strategy.", x, 250);
+			descWidth = metrics.stringWidth("Play cards from your hand on your turn.");
+			x = (800 - descWidth) / 2;
+			g.drawString("Play cards from your hand on your turn.", x, 275);
+			descWidth = metrics.stringWidth("If the opponent thinks you are bluffing, they can call liar.");
+			x = (800 - descWidth) / 2;
+			g.drawString("If the opponent thinks you are bluffing, they can call liar.", x, 300);
+			descWidth = metrics.stringWidth("Jokers are wild.");
+			x = (800 - descWidth) / 2;
+			g.drawString("Jokers are wild.", x, 325);
+			
+		}
 		
 	}
 

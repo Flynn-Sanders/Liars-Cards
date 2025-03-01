@@ -111,7 +111,7 @@ public class CardGame {
 
     public int callBluff(){
         for (Card c : betCards) {
-            if (!c.getName().equals(table)) {
+            if (!c.getName().equals(table)&&!c.getName().equals("J")) {
                 System.out.println("WIN BY CORRECTLY ACCUSING");
                 return turn;
             }
@@ -259,8 +259,9 @@ public class CardGame {
             }
             for(int j = 0; j<6; j++){
                 deck.add(new Card(name));
-                
             }
         }
+        deck.add(new Card("J"));
+        deck.add(new Card("J"));
     }
 }
