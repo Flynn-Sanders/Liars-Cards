@@ -1,21 +1,30 @@
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 
 public class Card {
     private String name;
     private BufferedImage cardImage;
-    private Font cardFont = new Font("Arial", Font.BOLD, 50);
+    private Font cardFont = new Font("Arial", Font.PLAIN, 30);
     private boolean selected = false, isCorrect = false, isIncorrect = false;
 
 
     
     public Card(String nm){
         name=nm;
+        try{
+            cardImage = ImageIO.read(new File(name+".png"));
+        }
+        catch(IOException e){
+            System.out.println(e);
+        }
     }
     
 
     public void drawMe(Graphics g, int x, int y){
-        g.setColor(Color.WHITE);
+        g.setColor(Color.black);
         if(selected){
             g.setColor(Color.YELLOW);
         }
@@ -25,11 +34,17 @@ public class Card {
         if(isIncorrect){
             g.setColor(Color.red);
         }
-        g.fillRect(x, y, 100, 140);
+        g.drawImage(cardImage, x, y, 100,140,null);
+        g.setFont(cardFont);
+        FontMetrics metrics = g.getFontMetrics(cardFont);
+		int height = 30;
+        int width = metrics.stringWidth(name);
+        g.drawString(name, x, y+height);
+        g.drawString(name, x+100-width-2, y+140-2);
+        
         g.setColor(Color.BLACK);
         g.drawRect(x, y, 100, 140);
-        g.setFont(cardFont);
-        g.drawString(name, x+35, y+90);
+        
         //System.out.println("Drawing card at" +x+","+y);
     }
 
@@ -45,5 +60,9 @@ public class Card {
     public void setChecker(boolean isGreen, boolean isRed){
         isCorrect=isGreen;
         isIncorrect=isRed;
+    }
+    @Override
+    public String toString(){
+        return name;
     }
 }

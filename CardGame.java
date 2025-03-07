@@ -13,7 +13,7 @@ public class CardGame {
     private ArrayList<Card> deck, p1Cards, p2Cards, selectedCards, playerCards,betCards;
     private BufferedImage cardback;
 
-    private boolean blankScreen = true;
+    private boolean blankScreen = true, ended=false;
     private int turn = 1;
 
     private String table, tableText;
@@ -75,10 +75,13 @@ public class CardGame {
             }
             selectedCards.clear();
             
-            
+            for(Card c : playerCards){
+                System.out.println(c.toString());
+            }
 
             if(turn == 1){
                 p1Cards = new ArrayList<>(playerCards); 
+                
                 playerCards.clear();
                 turn = 2;
                 for(Card c : p2Cards){
@@ -103,13 +106,14 @@ public class CardGame {
         else{
             System.out.println("Can only play 1-3 cards.");
             for(Card c : playerCards){
-                System.out.println(c.getName());
+                //System.out.println(c.getName());
             }
             return false;
         }
     }
 
     public int callBluff(){
+        ended=true;
         for (Card c : betCards) {
             if (!c.getName().equals(table)&&!c.getName().equals("J")) {
                 System.out.println("WIN BY CORRECTLY ACCUSING");
@@ -125,6 +129,13 @@ public class CardGame {
         }
         return 0;
         
+    }
+
+    public void cheatKey(){
+        betCards.clear();
+        betCards.add(new Card("Q"));
+        betCards.add(new Card("K"));
+        callBluff();
     }
 
 
@@ -246,6 +257,7 @@ public class CardGame {
         p2Cards.clear();
         selectedCards.clear();
         playerCards.clear();
+        betCards.clear();
         currentBet=0;
         turn=1;
 
@@ -263,5 +275,15 @@ public class CardGame {
         }
         deck.add(new Card("J"));
         deck.add(new Card("J"));
+    }
+    public boolean getEnded(){
+        return ended;
+    }
+    public String getLastHand(){
+        String hand = "";
+        for(Card c : betCards){
+            hand+=c.toString()+", ";
+        }
+        return hand;
     }
 }

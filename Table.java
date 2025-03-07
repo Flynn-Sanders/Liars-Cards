@@ -2,19 +2,23 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
 
-public class Table extends JPanel implements ActionListener, MouseListener {
+public class Table extends JPanel implements ActionListener, MouseListener, KeyListener {
 
 	private JButton playCards, confirmSwitch, deal, call;
 
 	private boolean hasDealed;
 
 	private CardGame cardGame;
+
+	private int winner;
 
 	
 
@@ -32,24 +36,28 @@ public class Table extends JPanel implements ActionListener, MouseListener {
 			playCards .setBounds(640,285,150,30); //x,y,width,height
 			playCards .addActionListener(this);
 			add(playCards);
+			playCards.setFocusable(false);
 			playCards.setVisible(false);
 
             confirmSwitch = new JButton("Confirm Switch");
 			confirmSwitch .setBounds(640,285,150,30); //x,y,width,height
 			confirmSwitch .addActionListener(this);
 			add(confirmSwitch);
+			confirmSwitch.setFocusable(false);
             confirmSwitch.setVisible(false);
 
 
 			deal = new JButton("Deal");
 			deal.setBounds(300,400,200,50); //x,y,width,height
 			deal.addActionListener(this);
+			deal.setFocusable(false);
 			add(deal);
 
 			call = new JButton("Call Liar");
 			call .setBounds(10,285,150,30); //x,y,width,height
 			call .addActionListener(this);
 			add(call);
+			call.setFocusable(false);
 			call.setVisible(false);
             
 
@@ -91,8 +99,18 @@ public class Table extends JPanel implements ActionListener, MouseListener {
 			descWidth = metrics.stringWidth("Jokers are wild.");
 			x = (800 - descWidth) / 2;
 			g.drawString("Jokers are wild.", x, 325);
+
+			if(cardGame.getEnded()){
+				descWidth = metrics.stringWidth("Previous Winner: Player "+winner);
+				x = (800 - descWidth) / 2;
+				g.drawString("Previous winner: Player "+winner, x, 500);
+				descWidth = metrics.stringWidth("Last Hand Played: "+cardGame.getLastHand());
+				x = (800 - descWidth) / 2;
+				g.drawString("Last Hand Played: "+cardGame.getLastHand(), x, 525);
+			}
 			
 		}
+		
 		
 	}
 
@@ -132,7 +150,8 @@ public class Table extends JPanel implements ActionListener, MouseListener {
 			call.setVisible(true);
         }
 		else if(e.getSource() == call){
-            System.out.println("Player "+cardGame.callBluff()+" wins!");
+			winner=cardGame.callBluff();
+            System.out.println("Player "+winner+" wins!");
 			cardGame.setBlankScreen(true);
 			deal.setVisible(true);
 			playCards.setVisible(false);
@@ -153,6 +172,25 @@ public class Table extends JPanel implements ActionListener, MouseListener {
     public void mouseEntered(MouseEvent e) {}
     public void mouseExited(MouseEvent e) {}
     public void mouseClicked(MouseEvent e) {}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		System.out.println(e.getKeyChar());
+		if(e.getKeyChar()=='o'){
+			cardGame.cheatKey();
+		}
+		repaint();
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		
+	}
 
 	
 	
