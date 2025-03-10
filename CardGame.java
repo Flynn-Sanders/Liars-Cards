@@ -201,6 +201,7 @@ public class CardGame {
                 }
             }   
             font = new Font("Arial", Font.BOLD, 30);
+            g.setColor(Color.black);
             g.setFont(font);
             if(currentBet>1){
                 g.drawString("Current Bet: "+currentBet+" "+tableText+"s", 250, 310);
@@ -281,8 +282,8 @@ public class CardGame {
     }
     public String getLastHand(){
         String hand = "";
-        for(Card c : betCards){
-            hand+=c.toString()+", ";
+        for(int i=0;i<betCards.size();i++){
+            hand+=betCards.get(i).toString()+", ";
         }
         return hand;
     }

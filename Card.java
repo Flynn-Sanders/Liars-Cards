@@ -41,8 +41,6 @@ public class Card {
         int width = metrics.stringWidth(name);
         g.drawString(name, x, y+height);
         g.drawString(name, x+100-width-2, y+140-2);
-        
-        g.setColor(Color.BLACK);
         g.drawRect(x, y, 100, 140);
         
         //System.out.println("Drawing card at" +x+","+y);
@@ -63,6 +61,22 @@ public class Card {
     }
     @Override
     public String toString(){
-        return name;
+        switch(name){
+            case "J" -> {
+                return "Joker";
+            }
+            case "Q" -> {
+                return "Queen";
+            }
+            case "K" -> {
+                return "King";
+            }
+            case "A" -> {
+                return "Ace";
+            }
+            default -> {
+                return "null";
+            }
+        }
     }
 }
