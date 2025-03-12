@@ -87,9 +87,7 @@ public class CardGame {
                 for(Card c : p2Cards){
                     playerCards.add(c);
                 }
-                if(p1Cards.isEmpty()){
-                    System.out.println("Player "+callBluff()+" wins, automatic call bluff due to last card played.");
-                }
+                
             } else if (turn == 2){
                 p2Cards = new ArrayList<>(playerCards); 
                 playerCards.clear();
@@ -97,9 +95,7 @@ public class CardGame {
                 for(Card c : p1Cards){
                     playerCards.add(c);
                 }
-                if(p2Cards.isEmpty()){
-                    System.out.println("Player "+callBluff()+" wins, automatic call bluff due to last card played.");
-                }
+                
             }
             return true;
         }
@@ -114,11 +110,20 @@ public class CardGame {
 
     public int callBluff(){
         ended=true;
+        boolean hasFoundFalse = false;
         for (Card c : betCards) {
             if (!c.getName().equals(table)&&!c.getName().equals("J")) {
-                System.out.println("WIN BY CORRECTLY ACCUSING");
-                return turn;
+                c.setChecker(false, true);
+                hasFoundFalse = true;
+                
             }
+            else{
+                c.setChecker(true, false);
+            }
+        }
+        if(hasFoundFalse){
+            System.out.println("WIN BY CORRECTLY ACCUSING");
+            return turn;
         }
         System.out.println("WIN BY FALSELY ACCUSING");
         if(turn==1){
@@ -141,7 +146,7 @@ public class CardGame {
 
     public void drawGame(Graphics g){
         
-		g.setColor(Color.green);
+		g.setColor(new Color(96,0,0));
 		g.fillRect(0,0,800,600);
 
         if(blankScreen == false){
@@ -280,11 +285,13 @@ public class CardGame {
     public boolean getEnded(){
         return ended;
     }
-    public String getLastHand(){
-        String hand = "";
-        for(int i=0;i<betCards.size();i++){
-            hand+=betCards.get(i).toString()+", ";
-        }
-        return hand;
+    public ArrayList<Card> getLastHand(){
+        return betCards;
+    }
+    public int size1(){
+        return p1Cards.size();
+    }
+    public int size2(){
+        return p2Cards.size();
     }
 }

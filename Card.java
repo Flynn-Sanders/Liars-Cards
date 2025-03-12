@@ -26,7 +26,7 @@ public class Card {
     public void drawMe(Graphics g, int x, int y){
         g.setColor(Color.black);
         if(selected){
-            g.setColor(Color.YELLOW);
+            g.setColor(new Color(186, 142, 35));
         }
         if(isCorrect){
             g.setColor(Color.green);
@@ -39,9 +39,13 @@ public class Card {
         FontMetrics metrics = g.getFontMetrics(cardFont);
 		int height = 30;
         int width = metrics.stringWidth(name);
-        g.drawString(name, x, y+height);
-        g.drawString(name, x+100-width-2, y+140-2);
-        g.drawRect(x, y, 100, 140);
+        if(!name.equals("J")){
+            g.drawString(name, x, y+height);
+            g.drawString(name, x+100-width-2, y+140-2);
+        }
+        Graphics2D g2 = (Graphics2D)g;
+        g2.setStroke(new BasicStroke(2.5f));
+        g2.drawRect(x, y, 100, 140);
         
         //System.out.println("Drawing card at" +x+","+y);
     }

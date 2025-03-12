@@ -8,6 +8,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import java.util.ArrayList;
 
 
 public class Table extends JPanel implements ActionListener, MouseListener, KeyListener {
@@ -48,7 +49,7 @@ public class Table extends JPanel implements ActionListener, MouseListener, KeyL
 
 
 			deal = new JButton("Deal");
-			deal.setBounds(300,400,200,50); //x,y,width,height
+			deal.setBounds(300,375,200,50); //x,y,width,height
 			deal.addActionListener(this);
 			deal.setFocusable(false);
 			add(deal);
@@ -101,12 +102,17 @@ public class Table extends JPanel implements ActionListener, MouseListener, KeyL
 			g.drawString("Jokers are wild.", x, 325);
 
 			if(cardGame.getEnded()){
-				descWidth = metrics.stringWidth("Previous Winner: Player "+winner);
-				x = (800 - descWidth) / 2;
-				g.drawString("Previous winner: Player "+winner, x, 500);
-				descWidth = metrics.stringWidth("Last Hand Played: "+cardGame.getLastHand());
-				x = (800 - descWidth) / 2;
-				g.drawString("Last Hand Played: "+cardGame.getLastHand(), x, 525);
+				deal.setBounds(450,375,200,50); 
+				g.drawString("Previous winner: Player "+winner, 10, 400);
+				g.drawString("Last Hand Played:", 10, 435);
+				ArrayList<Card> hand = cardGame.getLastHand();
+				int cardWidth=100;
+				x = (int)(170-(0.5*hand.size()*cardWidth));
+				int y = 450;
+				for(Card c : hand){
+					c.drawMe(g, x, y);
+					x+=(int)(cardWidth+10);
+        		}
 			}
 			
 		}
@@ -148,6 +154,19 @@ public class Table extends JPanel implements ActionListener, MouseListener, KeyL
             confirmSwitch.setVisible(false);
             playCards.setVisible(true);
 			call.setVisible(true);
+			int size1 = cardGame.size1();
+			int size2 = cardGame.size2();
+			if(size1==0||size2==0){
+				winner=cardGame.callBluff();
+                System.out.println("Player "+winner+" wins, automatic call bluff due to last card played.");
+				cardGame.setBlankScreen(true);
+				deal.setVisible(true);
+				playCards.setVisible(false);
+				call.setVisible(false);
+				hasDealed=false;
+
+			}
+			
         }
 		else if(e.getSource() == call){
 			winner=cardGame.callBluff();
