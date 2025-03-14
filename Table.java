@@ -156,6 +156,16 @@ public class Table extends JPanel implements ActionListener, MouseListener, KeyL
 				exc.printStackTrace(System.out);
 			}
 		}
+		if((int)(Math.random()*5)==2){
+			try {
+				URL url = this.getClass().getClassLoader().getResource("hint.wav");
+				Clip clip = AudioSystem.getClip();
+				clip.open(AudioSystem.getAudioInputStream(url));
+				clip.start();
+			} catch (Exception exc) {
+				exc.printStackTrace(System.out);
+			}
+		}
 	}
 
 
@@ -205,6 +215,14 @@ public class Table extends JPanel implements ActionListener, MouseListener, KeyL
 			
         }
 		else if(e.getSource() == call){
+			try {
+				URL url = this.getClass().getClassLoader().getResource("liar.wav");
+				Clip clip = AudioSystem.getClip();
+				clip.open(AudioSystem.getAudioInputStream(url));
+				clip.start();
+			} catch (Exception exc) {
+				exc.printStackTrace(System.out);
+			}
 			winner=cardGame.callBluff();
             System.out.println("Player "+winner+" wins!");
 			cardGame.setBlankScreen(true);
