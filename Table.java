@@ -6,9 +6,12 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.net.URL;
+import java.util.ArrayList;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import java.util.ArrayList;
 
 
 public class Table extends JPanel implements ActionListener, MouseListener, KeyListener {
@@ -124,6 +127,36 @@ public class Table extends JPanel implements ActionListener, MouseListener, KeyL
 		return hasDealed;
 	}
 	
+	private void playSounds(){
+		try {
+			URL url = this.getClass().getClassLoader().getResource(cardGame.getBet()+".wav");
+			Clip clip = AudioSystem.getClip();
+			clip.open(AudioSystem.getAudioInputStream(url));
+			clip.start();
+		} catch (Exception exc) {
+			exc.printStackTrace(System.out);
+		}
+		if(cardGame.getBet()==1){
+			try {
+				URL url = this.getClass().getClassLoader().getResource(cardGame.getTable()+"-s"+".wav");
+				Clip clip = AudioSystem.getClip();
+				clip.open(AudioSystem.getAudioInputStream(url));
+				clip.start();
+			} catch (Exception exc) {
+				exc.printStackTrace(System.out);
+			}
+		}
+		else{
+			try {
+				URL url = this.getClass().getClassLoader().getResource(cardGame.getTable()+".wav");
+				Clip clip = AudioSystem.getClip();
+				clip.open(AudioSystem.getAudioInputStream(url));
+				clip.start();
+			} catch (Exception exc) {
+				exc.printStackTrace(System.out);
+			}
+		}
+	}
 
 
 
@@ -165,6 +198,9 @@ public class Table extends JPanel implements ActionListener, MouseListener, KeyL
 				call.setVisible(false);
 				hasDealed=false;
 
+			}
+			else{
+				playSounds();
 			}
 			
         }

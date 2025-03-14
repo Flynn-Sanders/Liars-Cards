@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
 
+
+
+
 public class CardGame {
 
     private ArrayList<Card> deck, p1Cards, p2Cards, selectedCards, playerCards,betCards;
@@ -39,6 +42,8 @@ public class CardGame {
         }
 
     }
+
+   
 
     public void start(){
         reset();
@@ -293,5 +298,11 @@ public class CardGame {
     }
     public int size2(){
         return p2Cards.size();
+    }
+    public int getBet(){
+        return currentBet;
+    }
+    public String getTable(){
+        return table;
     }
 }
