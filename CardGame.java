@@ -79,10 +79,6 @@ public class CardGame {
                 }
             }
             selectedCards.clear();
-            
-            for(Card c : playerCards){
-                System.out.println(c.toString());
-            }
 
             if(turn == 1){
                 p1Cards = new ArrayList<>(playerCards); 
